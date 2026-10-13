@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SidVix Game - Mestre das Bolas</title>
+  
+  <!-- Meta Tags para Compartilhamento (Facebook/WhatsApp) -->
+  <meta property="og:title" content="SidVix Game - Mestre das Bolas">
+  <meta property="og:description" content="Jogue agora e desafie sua mente! Desenvolvido por Sidnei Santos.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/SEU_USUARIO/sidvixgame/main/assets/sidvico.png">
+  <meta property="og:url" content="https://sidvixgame.vercel.app">
+  
+  <!-- Model Viewer para o 3D -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+  
+  <style>
+    :root {
+      --neon-pink: #ff2d8b;
+      --neon-blue: #00d4ff;
+      --neon-orange: #ff8c00;
+      --neon-green: #39ff14;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      overflow: hidden;
+      /* Fundo RGB Animado */
+      background: linear-gradient(-45deg, #1a0533, #3a1172, #6b2fa0, #ff2d8b, #ff8c00);
+      background-size: 400% 400%;
+      animation: rgbShift 10s ease infinite;
+    }
+
+    @keyframes rgbShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+      text-shadow: 0 0 20px rgba(255, 45, 139, 0.8);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* Área do 3D */
+    .model-container {
+      width: 100%;
+      height: 350px;
+      margin: 20px 0;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      --poster-color: transparent;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    /* Botões */
+    .btn-play {
+      display: inline-block;
+      width: 80%;
+      padding: 18px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #1a0533;
+      background: linear-gradient(90deg, #39ff14, #00d4ff);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: bounce 2s infinite;
+    }
+
+    .btn-play:active {
+      transform: scale(0.95);
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .btn-facebook {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 25px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      background: #1877F2;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .btn-facebook:active { transform: scale(0.95); }
+
+    .loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Logo -->
+    <img src="assets/sidvico.png" alt="SidVix Game Logo" class="logo">
+    
+    <h1>SidVix Game</h1>
+    <p class="subtitle">Mestre das Bolas</p>
+
+    <!-- Modelo 3D Interativo -->
+    <div class="model-container">
+      <div class="loading" id="loadingText">Carregando Sid 3D...</div>
+      <model-viewer 
+        id="sidModel"
+        src="models/Sidvixgame-v1.glb" 
+        alt="Personagem Sid 3D"
+        auto-rotate 
+        camera-controls 
+        touch-action="pan-y"
+        shadow-intensity="1"
+        camera-orbit="45deg 55deg 2.5m"
+        style="display: none;"
+        onload="document.getElementById('loadingText').style.display='none'; this.style.display='block';">
+      </model-viewer>
+    </div>
+    
+    <p class="hint">👆 Arraste para girar • Pinça para zoom</p>
+
+    <!-- Botão Jogar -->
+    <a href="game.html" class="btn-play">🎮 JOGAR</a>
+
+    <br>
+
+    <!-- Botão Facebook -->
+    <a href="https://www.facebook.com/share/p/1CEYM2w8Yw/" target="_blank" rel="noopener noreferrer" class="btn-facebook">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Avaliar no Facebook
+    </a>
+  </div>
+
+</body>
+</html>
