@@ -185,17 +185,18 @@
     <div class="model-container">
       <div class="loading" id="loadingText">Carregando Sid 3D...</div>
       <model-viewer 
-        id="sidModel"
-        src="models/Sidvixgame-v1.glb" 
-        alt="Personagem Sid 3D"
-        auto-rotate 
-        camera-controls 
-        touch-action="pan-y"
-        shadow-intensity="1"
-        camera-orbit="45deg 55deg 2.5m"
-        style="display: none;"
-        onload="document.getElementById('loadingText').style.display='none'; this.style.display='block';">
-      </model-viewer>
+  id="sidModel"
+  src="https://github.com/Ripmastersid/sidvixgame/raw/main/models/Sidvixgame-v1.glb"
+  alt="Personagem Sid 3D"
+  auto-rotate 
+  camera-controls 
+  touch-action="pan-y"
+  shadow-intensity="1"
+  camera-orbit="45deg 55deg 2.5m"
+  style="display: none;"
+  onload="document.getElementById('loadingText').style.display='none'; this.style.display='block';"
+  onerror="document.getElementById('loadingText').textContent='Erro ao carregar. Recarregue a página.'">
+</model-viewer>
     </div>
     
     <p class="hint">👆 Arraste para girar • Pinça para zoom</p>
